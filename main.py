@@ -4,13 +4,14 @@ import os
 # 从环境变量中获取 cookies
 cookies_string = os.getenv('COOKIES')
 
-# 将字符串转换为字典（假设 cookies 是以 `key=value` 格式存储的）
+# 将 cookies 字符串解析为字典
 cookies = {}
 if cookies_string:
-    cookie_items = cookies_string.split(';')
+    cookie_items = cookies_string.strip().split(';')  # 去掉字符串两端的空格，按 `;` 分隔
     for item in cookie_items:
-        key, value = item.split('=', 1)
-        cookies[key.strip()] = value.strip()
+        if '=' in item:  # 确保每个 item 都是键值对
+            key, value = item.split('=', 1)
+            cookies[key.strip()] = value.strip()
 
 # 创建会话对象
 session = requests.Session()
