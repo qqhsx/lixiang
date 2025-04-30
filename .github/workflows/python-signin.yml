@@ -26,6 +26,7 @@ jobs:
 
       - name: Run sign-in script
         env:
-          COOKIES: ${{ secrets.COOKIES }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           python main.py  # 替换为你的脚本文件名
