@@ -18,7 +18,7 @@ def get_current_date():
 # 检查今天是否已经签到
 def check_if_signed(session):
     response = session.get(SIGN_URL, cookies=cookies)
-    if '您的签到排名：' in response.text:
+    if '您今天已经签到过了' in response.text:
         return True
     return False
 
