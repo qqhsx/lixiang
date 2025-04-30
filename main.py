@@ -13,56 +13,24 @@ sign_url = 'https://www.55188.com/plugin.php?id=sign&mod=add&jump=1'
 # 创建会话对象
 session = requests.Session()
 
-# 登录的表单数据
-login_data = {
-    'username': username,
-    'password': password,
-    'formhash': '',  # 需要动态获取
-    'referer': 'https://www.55188.com/',
-}
-
-# 模拟登录，获取登录的formhash
-
-
-def get_formhash():
-    url = "https://www.55188.com/"  # 请确认这个 URL 是你要提取 formhash 的页面
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+# 使用 cookies 登录
+def login_with_cookies():
+    # 提前设置 cookies，如果你已有登录时的 cookies，可以将其复制到这里
+    cookies = {
+        'cookie_name': '55188_passport=jse99w68FdRbdClAGKT1ytAM6UVFVc1lR7BjKZVM5vllqvo2KE6miQl8fr8%2FULW78CgXilkvXUX7W5mfB6vAvb0QBwQnGLgMKgbWgE%2Fc9W9eKYydp3jO5EXTim2KREloPpsUszyYWY6OHhPlXSQQYMRzu0xKMdco1lCjcnF6jMk%3D; passport2bbs=oKvtgy64BAAkWOBWuQxg04JPI2xzUdnlvXXMNIHPFRqlVpBlMROVZFvxoGtBsuWb; cdb2_auth=2Cqu1WSfVNNHetdTv03Y2GnwxQN8%2F5RaXlSphRuFc6RnSHUFF%2BuxUjq%2BVuCuq641Iw; vOVx_56cc_saltkey=f115JJ4C; vOVx_56cc_lastvisit=1745976203; vOVx_56cc_auth=2751al30XL9yHoNpMIhs0R8BKUSxv9nyXtDDM8nIUDOQAIdeQoUoWHpkPiSrZF36nW6ebtSNgLjjOqbH1JzUksoUiZk%2F; vOVx_56cc_sid=aTUDja; vOVx_56cc_yfe_in=1; vOVx_56cc_pc_size_c=0; vOVx_56cc_ulastactivity=6fc8my1SlIRI%2BYycF8xA73K%2BTgQUxRjP2wXDjZ%2FvLljLF8iLZ9Xa; vOVx_56cc_atarget=1; vOVx_56cc_visitedfid=68; vOVx_56cc_forum_lastvisit=D_68_1745980098; vOVx_56cc_checkpm=1; vOVx_56cc_lastcheckfeed=4016791%7C1745981067; vOVx_56cc_checkfollow=1; vOVx_56cc_lastact=1745981067%09home.php%09misc; vOVx_56cc_sendmail=1',  # 在此替换为实际的 cookie 名称和值
+        # 你可以从浏览器的开发者工具中获取实际的 cookie
     }
-    try:
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()  # 检查状态码是否为 200
-    except Exception as e:
-        print("请求页面失败：", e)
-        return None
+    session.cookies.update(cookies)  # 将 cookie 添加到 session 中
 
-    # 打印页面源码，用于调试（可以暂时注释掉）
-    print("页面内容如下（前1000字）:")
-    print(response.text[:1000])
-
-    soup = BeautifulSoup(response.text, 'html.parser')
-    tag = soup.find('input', {'name': 'formhash'})
-    if tag:
-        formhash = tag['value']
-        print("成功提取 formhash:", formhash)
-        return formhash
-    else:
-        print("❌ 页面中未找到 formhash，请检查页面结构是否改变，或是否被重定向。")
-        return None
-
-
-# 登录函数
-def login():
-    login_data['formhash'] = get_formhash()  # 更新formhash
-    response = session.post(login_url, data=login_data)
+    # 通过一个请求检查是否登录成功
+    response = session.get('https://www.55188.com/')
     if '欢迎回来' in response.text:  # 登录成功后页面中的欢迎文本
-        print('登录成功！')
+        print('通过 Cookies 登录成功！')
     else:
-        print('登录失败！')
+        print('Cookies 登录失败！')
 
 # 签到函数
 def sign_in():
-    # 获取表单数据
     sign_response = session.get(sign_url)
     if '签到成功' in sign_response.text:
         print('签到成功！')
@@ -73,8 +41,8 @@ def sign_in():
 
 # 主函数
 def main():
-    login()
-    sign_in()
+    login_with_cookies()  # 使用 cookies 登录
+    sign_in()  # 执行签到操作
 
 if __name__ == "__main__":
     main()
