@@ -22,11 +22,34 @@ login_data = {
 }
 
 # 模拟登录，获取登录的formhash
+
+
 def get_formhash():
-    response = session.get(login_url)
+    url = "https://www.55188.com/"  # 请确认这个 URL 是你要提取 formhash 的页面
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+    }
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()  # 检查状态码是否为 200
+    except Exception as e:
+        print("请求页面失败：", e)
+        return None
+
+    # 打印页面源码，用于调试（可以暂时注释掉）
+    print("页面内容如下（前1000字）:")
+    print(response.text[:1000])
+
     soup = BeautifulSoup(response.text, 'html.parser')
-    formhash = soup.find('input', {'name': 'formhash'})['value']
-    return formhash
+    tag = soup.find('input', {'name': 'formhash'})
+    if tag:
+        formhash = tag['value']
+        print("成功提取 formhash:", formhash)
+        return formhash
+    else:
+        print("❌ 页面中未找到 formhash，请检查页面结构是否改变，或是否被重定向。")
+        return None
+
 
 # 登录函数
 def login():
