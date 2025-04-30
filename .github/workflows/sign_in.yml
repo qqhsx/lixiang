@@ -25,3 +25,6 @@ jobs:
     - name: Run Sign-in Script
       run: |
         python sign_in.py
+      env:
+        BBS_COOKIE: ${{ secrets.BBS_COOKIE }}  # 使用创建的 secret
+
