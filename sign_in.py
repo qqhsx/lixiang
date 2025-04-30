@@ -26,7 +26,8 @@ def check_if_signed(session):
 def sign_in(session):
     response = session.get(SIGN_URL, cookies=cookies)
     soup = BeautifulSoup(response.text, 'html.parser')
-    
+    # 输出整个页面的 HTML 供调试
+    print(soup.prettify())  # 可以打印出 HTML 内容看看页面是否有变化
     # 找到签到按钮并提交
     sign_button = soup.find('button', {'name': 'qiandao'})  # 这里的按钮可能需要根据网页结构调整
     if sign_button:
