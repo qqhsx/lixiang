@@ -1,13 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import os
+
 
 # 签到页面 URL
 SIGN_URL = 'https://www.55188.com/plugin.php?id=sign&mod=add&jump=1'
 
 # 替换为你自己的 Cookie
+# cookies = {
+#     'cookie': '',
+# }
 cookies = {
-    'cookie': '55188_passport=jse99w68FdRbdClAGKT1ytAM6UVFVc1lR7BjKZVM5vllqvo2KE6miQl8fr8%2FULW78CgXilkvXUX7W5mfB6vAvb0QBwQnGLgMKgbWgE%2Fc9W9eKYydp3jO5EXTim2KREloPpsUszyYWY6OHhPlXSQQYMRzu0xKMdco1lCjcnF6jMk%3D; passport2bbs=oKvtgy64BAAkWOBWuQxg04JPI2xzUdnlvXXMNIHPFRqlVpBlMROVZFvxoGtBsuWb; cdb2_auth=2Cqu1WSfVNNHetdTv03Y2GnwxQN8%2F5RaXlSphRuFc6RnSHUFF%2BuxUjq%2BVuCuq641Iw; vOVx_56cc_saltkey=f115JJ4C; vOVx_56cc_lastvisit=1745976203; vOVx_56cc_auth=2751al30XL9yHoNpMIhs0R8BKUSxv9nyXtDDM8nIUDOQAIdeQoUoWHpkPiSrZF36nW6ebtSNgLjjOqbH1JzUksoUiZk%2F; vOVx_56cc_sid=aTUDja; vOVx_56cc_yfe_in=1; vOVx_56cc_pc_size_c=0; vOVx_56cc_ulastactivity=6fc8my1SlIRI%2BYycF8xA73K%2BTgQUxRjP2wXDjZ%2FvLljLF8iLZ9Xa; vOVx_56cc_atarget=1; vOVx_56cc_visitedfid=68; vOVx_56cc_forum_lastvisit=D_68_1745980098; vOVx_56cc_checkpm=1; vOVx_56cc_lastcheckfeed=4016791%7C1745981067; vOVx_56cc_checkfollow=1; vOVx_56cc_lastact=1745981067%09home.php%09misc; vOVx_56cc_sendmail=1',
+    'cookie': os.getenv('BBS_COOKIE'),  # 从环境变量读取 Cookie
 }
 
 # 获取当前日期
