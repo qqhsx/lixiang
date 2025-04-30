@@ -2,7 +2,7 @@ name: Auto Sign-in for BBS
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # 每天上午8点运行
+    - cron: '0 8 * * *'  # 每天上午8点运行（按需要调整）
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -16,12 +16,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.9'  # 设置具体的 Python 版本
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt  # 使用 requirements.txt 安装依赖
+        pip install requests beautifulsoup4
 
     - name: Run Sign-in Script
       run: |
-        python sign_in.py  # 确保脚本路径正确
+        python sign_in.py
